@@ -66,5 +66,8 @@
     "release": "standard-version"
   },
   "target": "web",
-  "dependencies": {}
+  "dependencies": {
+    "animejs": "^3.2.1",
+    "eventemitter3": "^4.0.7"
+  }
 }
