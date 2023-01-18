@@ -66,7 +66,5 @@
     "release": "standard-version"
   },
   "target": "web",
-  "dependencies": {
-    "ramda": "^0.28.0"
-  }
+  "dependencies": {}
 }
