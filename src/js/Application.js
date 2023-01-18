@@ -1,5 +1,6 @@
 import EventEmitter from "eventemitter3";
-import Beat from "./Beat";
+import Card from "./Card";
+import Notification from "./Notification";
 
 export default class Application extends EventEmitter {
   static get events() {
@@ -11,25 +12,35 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
 
-    const lyrics = ["Ah", "ha", "ha", "ha", "stayin' alive", "stayin' alive"];
-    let count = 0;
+    const pizzas = [
+      {
+        type: Card.types.HAWAIIAN,
+        price: 8.99,
+      },
+      {
+        type: Card.types.PEPPERONI,
+        price: 9.99,
+      },
+      {
+        type: Card.types.MARGHERITA,
+        price: 7.99,
+      },
+    ];
 
-    this._beat = new Beat();
-    this._beat.on(Beat.events.BIT, () => {
-      this._create(lyrics[count])
-      count++;
-      if (count>=lyrics.length) {
-        count=0;
-      }
+    pizzas.forEach((pizza) => {
+      const card = new Card({ ...pizza });
+      card.render();
+      document.querySelector(".main").appendChild(card.container);
+      card.on(Card.events.ADD_TO_CART, data => {
+        console.log(data);
+        // Create the event handler here
+        // You can do something like this:
+        const notification = new Notification();
+        notification.render(data);
+        document.querySelector(".main").appendChild(notification.container);
+      });
     });
 
     this.emit(Application.events.READY);
   }
-
-  _create(lyric) {
-    let message = document.createElement("div");
-    message.classList.add("message");
-    message.innerText = lyric;
-    document.querySelector(".main").appendChild(message);
-  };
 }
